@@ -1,0 +1,420 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+
+WorldInfo {
+  basicTimeStep 8
+  contactProperties [
+    ContactProperties {
+      maxContactJoints 300
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.05266832901239523 0.10200055948129207 0.9933891145893161 0.7175439825820402
+  position -2.461069792479679 -2.253799343845008 0.9508908523844952
+}
+DEF haique Robot {
+  translation 0 0 0.63
+  children [
+    Accelerometer {
+    }
+    Gyro {
+    }
+    BallJoint {
+      jointParameters BallJointParameters {
+      }
+      jointParameters2 JointParameters {
+        axis 0 1 0
+      }
+      jointParameters3 JointParameters {
+      }
+      endPoint Solid {
+        translation 0 0 -0.62
+        children [
+          DEF g0 Group {
+            children [
+              Pose {
+                translation 0 -2.34646e-06 0.25
+                rotation 1 0 0 4.692820414042842e-06
+                children [
+                  DEF cylinder Shape {
+                    appearance PBRAppearance {
+                    }
+                    geometry Cylinder {
+                      height 0.5
+                      radius 0.01
+                    }
+                  }
+                ]
+              }
+              DEF plant Shape {
+                appearance PBRAppearance {
+                }
+                geometry Box {
+                  size 1 1 0.01
+                }
+              }
+            ]
+          }
+        ]
+        name "solid(2)"
+        boundingObject USE g0
+        physics Physics {
+          density -1
+          mass 500
+        }
+      }
+      
+    }
+    GPS {
+    }
+    InertialUnit {
+    }
+    DEF motor7 Propeller {
+      shaftAxis 0 0 1
+      centerOfThrust -0.3002 0 -0.0519
+      thrustConstants 0.3 0.03
+      torqueConstants 0.03 0.005
+      device RotationalMotor {
+        name "motor7"
+        maxVelocity 100
+      }
+      slowHelix Solid {
+        translation -0.3002 0 -0.0519
+        children [
+          DEF motor6_shape Shape {
+            appearance PBRAppearance {
+              metalness 0
+            }
+            geometry Box {
+              size 0.16 0.01 0.01
+            }
+          }
+        ]
+        boundingObject USE motor6_shape
+        physics Physics {
+        }
+      }
+    }
+    DEF motor3 Propeller {
+      shaftAxis 0 0 -1
+      centerOfThrust -0.3002 0 0.0519
+      thrustConstants -0.3 -0.03
+      torqueConstants 0.03 0.005
+      device RotationalMotor {
+        name "motor3"
+        maxVelocity 100
+      }
+      slowHelix Solid {
+        translation -0.3002 0 0.0519
+        children [
+          DEF motor3_shape Shape {
+            appearance PBRAppearance {
+              metalness 0
+            }
+            geometry Box {
+              size 0.16 0.01 0.01
+            }
+          }
+        ]
+        boundingObject USE motor3_shape
+        physics Physics {
+        }
+      }
+    }
+    DEF motor1 Propeller {
+      shaftAxis 0 0 -1
+      centerOfThrust 0.33884 0 0.0519
+      thrustConstants -0.3 -0.03
+      torqueConstants 0.03 0.005
+      device RotationalMotor {
+        name "motor1"
+        maxVelocity 100
+      }
+      slowHelix Solid {
+        translation 0.33884 0 0.0519
+        rotation 0 0 -1 0
+        children [
+          DEF motor5_shape Shape {
+            appearance PBRAppearance {
+              metalness 0
+            }
+            geometry Box {
+              size 0.16 0.01 0.01
+            }
+          }
+        ]
+        boundingObject USE motor5_shape
+        physics Physics {
+        }
+      }
+    }
+    DEF motor5 Propeller {
+      shaftAxis 0 0 1
+      centerOfThrust 0.33884 0 -0.0519
+      thrustConstants 0.3 0.03
+      torqueConstants 0.03 0.005
+      device RotationalMotor {
+        name "motor5"
+        maxVelocity 100
+      }
+      slowHelix Solid {
+        translation 0.33884 0 -0.0519
+        rotation 0 0 -1 0
+        children [
+          DEF motor1_shape Shape {
+            appearance PBRAppearance {
+              metalness 0
+            }
+            geometry Box {
+              size 0.16 0.01 0.01
+            }
+          }
+        ]
+        boundingObject USE motor1_shape
+        physics Physics {
+        }
+      }
+    }
+    DEF right_arm_joint HingeJoint {
+      jointParameters HingeJointParameters {
+        position -9.636205811277553e-08
+        axis 0 1 0
+        anchor 0.00084 -0.286 0.000300009
+      }
+      device [
+        PositionSensor {
+          name "right_arm_position_sensor"
+        }
+        RotationalMotor {
+          name "right_arm_servo"
+          minPosition -9.636205811277553e-08
+          maxPosition 3.14
+        }
+      ]
+      endPoint DEF right_arm Solid {
+        translation 0.0008400030784143673 -0.286 0.0003000077790041005
+        rotation 0 -0.9999999999999999 0 9.424321830774485e-08
+        children [
+          DEF motor4 Propeller {
+            shaftAxis 0 0 1
+            centerOfThrust -0.0015 -0.0117 0.051
+            thrustConstants 0.3 0.03
+            torqueConstants 0.03 0.005
+            device RotationalMotor {
+              name "motor4"
+              maxVelocity 100
+            }
+            slowHelix Solid {
+              translation -0.0015 -0.0117 0.051
+              children [
+                DEF motor4_shape Shape {
+                  appearance PBRAppearance {
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.16 0.01 0.01
+                  }
+                }
+              ]
+              boundingObject USE motor4_shape
+              physics Physics {
+              }
+            }
+          }
+          DEF motor8 Propeller {
+            shaftAxis 0 0 -1
+            centerOfThrust -0.0015 -0.0117 -0.051
+            thrustConstants -0.3 -0.03
+            torqueConstants 0.03 0.005
+            device RotationalMotor {
+              name "motor8"
+              maxVelocity 100
+            }
+            slowHelix Solid {
+              translation -0.0015 -0.0117 -0.051
+              children [
+                DEF motor8_shape Shape {
+                  appearance PBRAppearance {
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.16 0.01 0.01
+                  }
+                }
+              ]
+              boundingObject USE motor8_shape
+              physics Physics {
+              }
+            }
+          }
+          DEF right_arm_shape Shape {
+            appearance PBRAppearance {
+              baseColor 0.5 0.5 0.5
+              metalness 0
+            }
+            geometry Mesh {
+              url [
+                "../mesh/right_arm.STL"
+              ]
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE right_arm_shape
+        physics Physics {
+        }
+      }
+    }
+    DEF left_arm_joint HingeJoint {
+      jointParameters HingeJointParameters {
+        position -1.257155210864794e-07
+        axis 0 1 0
+        anchor 0.0005 0.283 0.0003
+      }
+      device [
+        PositionSensor {
+          name "left_arm_position_sensor"
+        }
+        RotationalMotor {
+          name "left_arm_servo"
+          minPosition -1.257155210864794e-07
+          maxPosition 3.14
+        }
+      ]
+      endPoint Solid {
+        translation 0.0004999967252063551 0.283 0.0003000087270946852
+        rotation 0 -1 0 1.264405455326821e-07
+        children [
+          DEF left_arm_shape Shape {
+            appearance PBRAppearance {
+              baseColor 0.5 0.5 0.5
+              metalness 0
+            }
+            geometry Mesh {
+              url [
+                "../mesh/left_arm.STL"
+              ]
+            }
+          }
+          DEF motor2 Propeller {
+            shaftAxis 0 0 1
+            centerOfThrust 0 0.0145 0.0516
+            thrustConstants 0.3 0.03
+            torqueConstants 0.03 0.005
+            device RotationalMotor {
+              name "motor2"
+              maxVelocity 100
+            }
+            slowHelix Solid {
+              translation 0 0.0145 0.0516
+              children [
+                DEF motor2_shape Shape {
+                  appearance PBRAppearance {
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.16 0.01 0.01
+                  }
+                }
+              ]
+              boundingObject USE motor2_shape
+              physics Physics {
+              }
+            }
+          }
+          DEF motor6 Propeller {
+            shaftAxis 0 0 -1
+            centerOfThrust 0 0.0145 -0.0516
+            thrustConstants -0.3 -0.03
+            torqueConstants 0.03 0.005
+            device RotationalMotor {
+              name "motor6"
+              maxVelocity 100
+            }
+            slowHelix Solid {
+              translation 0 0.0145 -0.0516
+              children [
+                DEF motor6_shape Shape {
+                  appearance PBRAppearance {
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.16 0.01 0.01
+                  }
+                }
+              ]
+              boundingObject USE motor6_shape
+              physics Physics {
+              }
+            }
+          }
+        ]
+        boundingObject USE left_arm_shape
+        physics Physics {
+        }
+      }
+    }
+    DEF bs Shape {
+      appearance PBRAppearance {
+        baseColor 0.5 0.5 0.5
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "../mesh/base_test.stl"
+        ]
+      }
+    }
+  ]
+  name "haique"
+  model "haique"
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "fluid"
+      dragForceCoefficients 0.1 0 0
+      dragTorqueCoefficients 0.01 0 0
+      viscousResistanceTorqueCoefficient 0.05
+    }
+  ]
+  boundingObject USE bs
+  physics Physics {
+    density -1
+    mass 4.808
+    centerOfMass [
+      0 0 0
+    ]
+    inertiaMatrix [
+      1 1 1
+      0 0 0
+    ]
+  }
+  controller "ros"
+  supervisor TRUE
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 5 5
+}
+Fluid {
+  translation 0 0 2.5
+  children [
+    DEF water Shape {
+      appearance PBRAppearance {
+        baseColor 0.7 0.9 1
+        transparency 0.8
+        metalness 0
+      }
+      geometry Box {
+        size 5 5 5
+      }
+    }
+  ]
+  boundingObject USE water
+}
+TexturedBackground {
+}
