@@ -1,4 +1,5 @@
-2025.3.13：
+#2025.3.13：#
+
 1、attitudectl/attctl中drag修改  
     drag = P(Slice(6, 9)) → drag = P(Slice(12, 15))
     attctl.h中的Dyna_Func(),drag补偿Mx,My,My,而P应该是(x0,xs,drag)，不应该取xs前三项
