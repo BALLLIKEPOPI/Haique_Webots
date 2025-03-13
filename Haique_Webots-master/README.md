@@ -1,4 +1,4 @@
-#2025.3.13：#
+# 2025.3.13：
 
 1、attitudectl/attctl中drag修改  
     drag = P(Slice(6, 9)) → drag = P(Slice(12, 15))
