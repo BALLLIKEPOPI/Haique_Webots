@@ -4,8 +4,6 @@
 #include "casadi/casadi.hpp"
 #include "attitudectl/controlPub.h"
 #include "eigen3/Eigen/Eigen"
-#include <iostream>
-#include <ostream>
 #include <vector>
 #include <ros/ros.h>
 #include "ros/publisher.h"

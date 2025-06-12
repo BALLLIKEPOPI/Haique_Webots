@@ -3,12 +3,10 @@
 #include "ros/init.h"
 #include "ros/node_handle.h"
 #include "ros/publisher.h"
-#include "ros/ros.h"
 #include "ros/subscriber.h"
 #include <gazebo_msgs/ModelStates.h>
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Twist.h>
-#include <iostream>
 #include "statePublish/statePub.h"
 
 using namespace std;

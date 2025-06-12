@@ -2,11 +2,7 @@
 #define __ESO_H__
 
 #include "eigen3/Eigen/Eigen"
-#include <iostream>
-#include <ostream>
-#include <vector>
 #include <ros/ros.h>
-#include "ros/publisher.h"
 
 using namespace std;
 

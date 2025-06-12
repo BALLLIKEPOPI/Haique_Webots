@@ -3,7 +3,7 @@
 #include<iostream>
 #include<vector>
 #include <casadi/casadi.hpp>
-#include "../include/attitudectl/attctl.h"
+#include "attitudectl/attctl.h"
 #include "eso/eso.h"
 #include "ros/console.h"
 #include "ros/publisher.h"

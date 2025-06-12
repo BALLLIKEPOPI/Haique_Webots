@@ -8,6 +8,7 @@
 // #include <mavros_msgs/SetMode.h>
 // #include <mavros_msgs/State.h>
 #include <geometry_msgs/PoseStamped.h>
+#include <geometry_msgs/PointStamped.h>
 #include "statePublish/statePub.h"
 #include <gazebo_msgs/ModelStates.h>
 #include <geometry_msgs/Pose.h>
@@ -93,6 +94,15 @@ void AccCallback(const sensor_msgs::Imu::ConstPtr& msg){
     statePub.linear_acceleration_z = v_z;
 }
 
+void GpsCallback(const geometry_msgs::PointStamped::ConstPtr& msg){
+    double x = msg->point.x;
+    double y = msg->point.y;
+    double z = msg->point.z;
+    statePub.global_position_x = x;
+    statePub.global_position_y = y;
+    statePub.global_position_z = z;
+}
+
 int main(int argc, char **argv){
     ros::init(argc, argv, "main");
     ros::NodeHandle nh;
@@ -115,6 +125,8 @@ int main(int argc, char **argv){
     ros::ServiceClient accelerometer_Client = nh.serviceClient<webots_ros::set_int>("/accelerometer/enable");
     ros::Subscriber accelerometer_sub = nh.subscribe("/accelerometer/values", 10, AccCallback);
     ros::Publisher statePublisher = nh.advertise<statePublish::statePub>("/statePub", 10);
+    ros::ServiceClient Gps_Client = nh.serviceClient<webots_ros::set_int>("/gps/enable");
+    ros::Subscriber Gps_sub = nh.subscribe("/gps/values", 10, GpsCallback);
 
     // initialize the statePub
     statePub.roll = 0;
@@ -151,6 +163,16 @@ int main(int argc, char **argv){
     } else {
         if (!acc_Srv.response.success)
         ROS_ERROR("Failed to enable accelerometer.");
+        return 1;
+    }
+
+    webots_ros::set_int gps_Srv;
+    gps_Srv.request.value = TIME_STEP;
+    if (Gps_Client.call(gps_Srv) && gps_Srv.response.success) {
+        ROS_INFO("gps enabled.");
+    } else {
+        if (!gps_Srv.response.success)
+        ROS_ERROR("Failed to enable gps.");
         return 1;
     }
 

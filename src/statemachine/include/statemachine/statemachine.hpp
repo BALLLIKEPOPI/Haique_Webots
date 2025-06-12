@@ -52,6 +52,14 @@ class StateMachine
         float c1 = 0.01; float c2 = 0.01; float c3 = 0.01;
         float k = 0.3; // 推力系数
         float c = 0.03; // 反扭系数
+
+        Slice all;
+        // Hover state variables
+        int n_state = 12; // [x, y, z, vx, vy, vz, phi, theta, psi, p, q, r]
+        int n_control = 8; // [f1, f2, f3, f4, f5, f6, f7, f8]
+        SX Q_hover = SX::zeros(n_state, n_state); // weighing matrices (states)
+        SX R_hover = SX::zeros(n_control, n_control); // weighing matrices (controls)
+        
 };
 
 #endif

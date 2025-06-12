@@ -11,7 +11,6 @@
 #include <casadi/core/sparsity_interface.hpp>
 #include <casadi/core/sx_fwd.hpp>
 #include <cmath>
-#include <iostream>
 #include <vector>
 
 MPC_CTL::MPC_CTL(){
