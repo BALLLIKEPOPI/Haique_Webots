@@ -15,6 +15,7 @@
 
   <node name="statePublish" pkg="statePublish" type="statePublish_node" output="screen"/>
   <node name="eso_node" pkg="eso" type="eso_node" output="screen"/>
-  <node name="attitudectl_node" pkg="attitudectl" type="attitudectl_node" output="screen"/>
+  <node name="statemachine_node" pkg="statemachine" type="statemachine_node" output="screen"/>
+  <!-- <node name="attitudectl_node" pkg="attitudectl" type="attitudectl_node" output="screen"/> -->
   <node name="thrustPublish" pkg="thrust_publish" type="thrust_publish_node" args="$(arg duration)" required="$(arg auto_close)" output="screen"/>
 </launch>

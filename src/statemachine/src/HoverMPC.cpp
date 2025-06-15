@@ -1,8 +1,7 @@
 #include "statemachine/HoverMPC.h"
 #include <casadi/core/calculus.hpp>
 
-HoverMPC::HoverMPC(int horizon, double dt)
-    : horizon_(horizon), dt_(dt) {}
+HoverMPC::HoverMPC(){}
 
 SX HoverMPC::Dynamics(const SX state, const SX con, SX drag){
     // State
@@ -49,15 +48,6 @@ SX HoverMPC::Dynamics(const SX state, const SX con, SX drag){
                         (1/I1)*Mx - drag_tx,
                         (1/I2)*My - drag_ty,
                         (1/I3)*Mz - drag_tz});
-}
-
-void HoverMPC::updatePara(vector<double> drag_t, vector<double> drag_f) {
-    // Update the parameters vector with the current state
-    para.clear();
-    para.insert(para.end(), x0.begin(), x0.end());
-    para.insert(para.end(), xs.begin(), xs.end());
-    para.insert(para.end(), drag_t.begin(), drag_t.end());
-    para.insert(para.end(), drag_f.begin(), drag_f.end());
 }
 
 void HoverMPC::setupProblem() {
@@ -114,8 +104,8 @@ void HoverMPC::setupProblem() {
     state_upper_bound = {inf, inf, inf, inf, inf, inf,
                         pi/2, pi/2, pi/2, inf, inf, inf};
 
-    con_lower_bound = {0, 0, 0, 0, 0, 0, 0, 0};
-    con_upper_bound = {50, 50, 50, 50, 50, 50, 50, 50};
+    con_lower_bound = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    con_upper_bound = {50, 50, 50, 50, 50, 50, 50, 50, 0, 0};
 
     for(int i = 0; i < N+1; i++){
         lbx.insert(lbx.end(), state_lower_bound.begin(), state_lower_bound.end());
@@ -141,6 +131,9 @@ void HoverMPC::setupProblem() {
 vector<double> HoverMPC::solve() {
     arg["p"] = para;
 
+    lbx.clear();
+    ubx.clear();
+
     for(int i = 0; i < N+1; i++){
         lbx.insert(lbx.end(), state_lower_bound.begin(), state_lower_bound.end());
         ubx.insert(ubx.end(), state_upper_bound.begin(), state_upper_bound.end());
@@ -153,7 +146,7 @@ vector<double> HoverMPC::solve() {
     arg["ubx"] = ubx;
     // initial value of the optimization variables
     arg["x0"] = SX::vertcat({SX::reshape(X0.T(), n_state*(N+1), 1),
-                                SX::reshape(u0.T(), 10*N, 1)});
+                                SX::reshape(u0.T(), n_control*N, 1)});
     res = solver(arg);
     return getFirstCon();
 }

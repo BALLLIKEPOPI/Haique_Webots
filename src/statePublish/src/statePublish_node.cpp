@@ -103,6 +103,16 @@ void GpsCallback(const geometry_msgs::PointStamped::ConstPtr& msg){
     statePub.global_position_z = z;
 }
 
+void GpsSpeedCallback(const geometry_msgs::PointStamped::ConstPtr& msg){
+    double v_x = msg->point.x;
+    double v_y = msg->point.y;
+    double v_z = msg->point.z;
+    statePub.linear_velocity_x = v_x;
+    statePub.linear_velocity_y = v_y;
+    statePub.linear_velocity_z = v_z;
+    cout << "linear_velocity_x: " << v_x << " linear_velocity_y: " << v_y << " linear_velocity_z: " << v_z << endl;
+}
+
 int main(int argc, char **argv){
     ros::init(argc, argv, "main");
     ros::NodeHandle nh;
@@ -127,6 +137,7 @@ int main(int argc, char **argv){
     ros::Publisher statePublisher = nh.advertise<statePublish::statePub>("/statePub", 10);
     ros::ServiceClient Gps_Client = nh.serviceClient<webots_ros::set_int>("/gps/enable");
     ros::Subscriber Gps_sub = nh.subscribe("/gps/values", 10, GpsCallback);
+    ros::Subscriber Gps_speed_sub = nh.subscribe("/gps/speed_vector", 10, GpsSpeedCallback);
 
     // initialize the statePub
     statePub.roll = 0;
