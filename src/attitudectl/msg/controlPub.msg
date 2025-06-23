@@ -1,3 +1,4 @@
+std_msgs/Header header
 float32 thrust1
 float32 thrust2
 float32 thrust3

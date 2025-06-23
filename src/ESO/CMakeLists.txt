@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   message_generation
   statePublish
+  attitudectl
 )
 
 ## System dependencies are found with CMake's conventions
@@ -107,7 +108,7 @@ catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES ESO
 #  CATKIN_DEPENDS roscpp rospy std_msgs
-  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime statePublish
+  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime statePublish attitudectl
 #  DEPENDS system_lib
 )
 

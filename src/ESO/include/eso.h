@@ -77,6 +77,15 @@ class ESO{
     float u;
     float b0;
     float d0;
+
+    float m = 4.8; // kg
+    float V = 0.00285; // m3
+    float rou = 1000; // kg/m3
+    float G = 9.8; // m/s2
+    float l = 0.6; // m
+    float c1 = 0.01; float c2 = 0.01; float c3 = 0.01;
+    float k = 0.3; // 推力系数
+    float c = 0.03; // 反扭系数
 };
 
 #endif

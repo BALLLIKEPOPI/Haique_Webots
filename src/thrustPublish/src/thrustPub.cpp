@@ -32,6 +32,7 @@
 #include <webots_ros/node_get_field.h>
 #include <webots_ros/supervisor_movie_start_recording.h>
 #include <webots_ros/supervisor_set_label.h>
+#include <sstream>
 
 #define TIME_STEP 8  // [ms]
 #define thrust_gain 50
@@ -50,14 +51,6 @@ webots_ros::set_float motor8Srv;
 webots_ros::set_float joint1Srv;
 webots_ros::set_float joint2Srv;
 
-ros::ServiceClient motor1_PositionClient;
-ros::ServiceClient motor2_PositionClient;
-ros::ServiceClient motor3_PositionClient;
-ros::ServiceClient motor4_PositionClient;
-ros::ServiceClient motor5_PositionClient;
-ros::ServiceClient motor6_PositionClient;
-ros::ServiceClient motor7_PositionClient;
-ros::ServiceClient motor8_PositionClient;
 ros::ServiceClient right_arm_joint_PositionClient;
 ros::ServiceClient left_arm_joint_PositionClient;
 
@@ -91,7 +84,6 @@ void conSub_cb(const attitudectl::controlPub::ConstPtr &msg){
     motor8Srv.request.value = (double)conSub_msg.thrust8*thrust_gain > 50 ? 50 : (double)conSub_msg.thrust8*thrust_gain;
     joint1Srv.request.value = Pi/2 - (double)conSub_msg.alpha;
     joint2Srv.request.value = Pi/2 - (double)conSub_msg.beta;
-
     // thrust[0].data = copysign(1.0, conSub_msg.thrust1)*sqrt(abs(conSub_msg.thrust1)/2)*thrust_gain;
     // thrust[1].data = copysign(1.0, conSub_msg.thrust2)*sqrt(abs(conSub_msg.thrust2)/2)*thrust_gain;
     // thrust[2].data = copysign(1.0, conSub_msg.thrust3)*sqrt(abs(conSub_msg.thrust3)/2)*thrust_gain;
@@ -138,22 +130,16 @@ int main(int argc, char **argv){
     // set motor position to infinity
     webots_ros::set_float motorSrv;
     motorSrv.request.value = INFINITY;
-    motor1_PositionClient = nh.serviceClient<webots_ros::set_float>("/motor1/set_position");
-    motor1_PositionClient.call(motorSrv);
-    motor2_PositionClient = nh.serviceClient<webots_ros::set_float>("/motor2/set_position");
-    motor2_PositionClient.call(motorSrv);
-    motor3_PositionClient = nh.serviceClient<webots_ros::set_float>("/motor3/set_position");
-    motor3_PositionClient.call(motorSrv);
-    motor4_PositionClient = nh.serviceClient<webots_ros::set_float>("/motor4/set_position");
-    motor4_PositionClient.call(motorSrv);
-    motor5_PositionClient = nh.serviceClient<webots_ros::set_float>("/motor5/set_position");
-    motor5_PositionClient.call(motorSrv);
-    motor6_PositionClient = nh.serviceClient<webots_ros::set_float>("/motor6/set_position");
-    motor6_PositionClient.call(motorSrv);
-    motor7_PositionClient = nh.serviceClient<webots_ros::set_float>("/motor7/set_position");
-    motor7_PositionClient.call(motorSrv);
-    motor8_PositionClient = nh.serviceClient<webots_ros::set_float>("/motor8/set_position");
-    motor8_PositionClient.call(motorSrv);
+
+    std::array<ros::ServiceClient, 8> motorPositionClients;
+    for (size_t i = 0; i < motorPositionClients.size(); ++i) {
+        std::ostringstream service_name;
+        service_name << "/motor" << (i + 1) << "/set_position";
+        motorPositionClients[i] = nh.serviceClient<webots_ros::set_float>(service_name.str());
+        if (!motorPositionClients[i].call(motorSrv)) {
+            ROS_WARN_STREAM("Failed to call service " << service_name.str());
+        }
+    }
     right_arm_joint_PositionClient = nh.serviceClient<webots_ros::set_float>("/right_arm_servo/set_position");
     left_arm_joint_PositionClient = nh.serviceClient<webots_ros::set_float>("/left_arm_servo/set_position");
 

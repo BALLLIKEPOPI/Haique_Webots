@@ -1,7 +1,10 @@
 #include "statemachine/HoverMPC.h"
 #include <casadi/core/calculus.hpp>
+#include <iostream>
 
-HoverMPC::HoverMPC(){}
+HoverMPC::HoverMPC(){
+    cout << "HoverMPC constructor called" << endl;
+}
 
 SX HoverMPC::Dynamics(const SX state, const SX con, SX drag){
     // State
@@ -51,18 +54,21 @@ SX HoverMPC::Dynamics(const SX state, const SX con, SX drag){
 }
 
 void HoverMPC::setupProblem() {
+    cout << "Problem setup started" << endl;
     // [x, y, z, vx, vy, vz, phi, theta, psi, p, q, r]
-    Q_hover(0, 0) = 100; Q_hover(3, 3) = 1;
-    Q_hover(1, 1) = 100; Q_hover(4, 4) = 1;
-    Q_hover(2, 2) = 100; Q_hover(5, 5) = 1;
-    Q_hover(6, 6) = 100; Q_hover(7, 7) = 1;
-    Q_hover(1, 8) = 100; Q_hover(4, 8) = 1;
-    Q_hover(2, 9) = 100; Q_hover(5, 9) = 1;
+    Q_hover(0, 0) = 100;    Q_hover(6, 6) = 100;
+    Q_hover(1, 1) = 100;    Q_hover(7, 7) = 100;
+    Q_hover(2, 2) = 100;    Q_hover(8, 8) = 100;
+    Q_hover(3, 3) = 1;      Q_hover(9, 9) = 100;
+    Q_hover(4, 4) = 1;      Q_hover(10, 10) = 1;
+    Q_hover(5, 5) = 1;      Q_hover(11, 11) = 1;
+
     // [f1, f2, f3, f4, f5, f6, f7, f8]
-    R_hover(0, 0) = 1000; R_hover(1, 1) = 1000;
-    R_hover(2, 2) = 1000; R_hover(3, 3) = 1000;
-    R_hover(4, 4) = 1000; R_hover(5, 5) = 1000;
-    R_hover(6, 6) = 1000; R_hover(7, 7) = 1000;
+    R_hover(0, 0) = 10;     R_hover(1, 1) = 10;
+    R_hover(2, 2) = 10;     R_hover(3, 3) = 10;
+    R_hover(4, 4) = 10;     R_hover(5, 5) = 10;
+    R_hover(6, 6) = 10;     R_hover(7, 7) = 10;
+    R_hover(8, 8) = 0;      R_hover(9, 9) = 0;
 
     st = X(all, 0);
     drag = P(Slice(2*n_state, 2*n_state+n_drag));
@@ -93,7 +99,7 @@ void HoverMPC::setupProblem() {
     // [x, y, z, vx, vy, vz, phi, theta, psi, p, q, r]
     // x0 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -85.0, 0.0, 0.0, 0.0}; // initial state
     // xs = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -85.0, 0.0, 0.0, 0.0}; // desire state
-    x0 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 
+    x0 = {0.0, 0.0, 0.17, 0.0, 0.0, 0.0, 
         0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; // initial state
     xs = {0.0, 0.0, 0.5, 0.0, 0.0, 0.0,
         0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; // desire state
@@ -104,8 +110,8 @@ void HoverMPC::setupProblem() {
     state_upper_bound = {inf, inf, inf, inf, inf, inf,
                         pi/2, pi/2, pi/2, inf, inf, inf};
 
-    con_lower_bound = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    con_upper_bound = {50, 50, 50, 50, 50, 50, 50, 50, 0, 0};
+    con_lower_bound = {0, 0, 0, 0, 0, 0, 0, 0, pi/2, pi/2};
+    con_upper_bound = {50, 50, 50, 50, 50, 50, 50, 50, pi/2, pi/2};
 
     for(int i = 0; i < N+1; i++){
         lbx.insert(lbx.end(), state_lower_bound.begin(), state_lower_bound.end());
@@ -126,6 +132,7 @@ void HoverMPC::setupProblem() {
     // TODO: if the system is in initial state
     // or maybe we should cancel this
     updatePara({0, 0, 0}, {0, 0, 0}); 
+    cout << "Problem setup finished" << endl;
 }
 
 vector<double> HoverMPC::solve() {

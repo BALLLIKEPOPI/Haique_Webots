@@ -14,6 +14,7 @@
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Twist.h>
 #include <gazebo_msgs/GetModelState.h>
+#include <iostream>
 #include <nav_msgs/Odometry.h>
 #include <sensor_msgs/NavSatFix.h>
 #include <sensor_msgs/Imu.h>
@@ -69,7 +70,7 @@ void inertial_unitCallback(const sensor_msgs::Imu::ConstPtr& msg){
     statePub.roll = roll;
     statePub.pitch = pitch;
     statePub.yaw = yaw;
-    cout << "roll: " << roll << " pitch: " << pitch << " yaw: " << yaw << endl;
+    // cout << "roll: " << roll << " pitch: " << pitch << " yaw: " << yaw << endl;
 }
 
 void GyroCallback(const sensor_msgs::Imu::ConstPtr& msg){
@@ -101,6 +102,7 @@ void GpsCallback(const geometry_msgs::PointStamped::ConstPtr& msg){
     statePub.global_position_x = x;
     statePub.global_position_y = y;
     statePub.global_position_z = z;
+    // cout << "global_position_x: " << x << " global_position_y: " << y << " global_position_z: " << z << endl;
 }
 
 void GpsSpeedCallback(const geometry_msgs::PointStamped::ConstPtr& msg){
@@ -110,7 +112,7 @@ void GpsSpeedCallback(const geometry_msgs::PointStamped::ConstPtr& msg){
     statePub.linear_velocity_x = v_x;
     statePub.linear_velocity_y = v_y;
     statePub.linear_velocity_z = v_z;
-    cout << "linear_velocity_x: " << v_x << " linear_velocity_y: " << v_y << " linear_velocity_z: " << v_z << endl;
+    // cout << "linear_velocity_x: " << v_x << " linear_velocity_y: " << v_y << " linear_velocity_z: " << v_z << endl;
 }
 
 int main(int argc, char **argv){
@@ -190,9 +192,10 @@ int main(int argc, char **argv){
     ros::Rate rate(50.0);
 
     while(ros::ok()) {
+        statePub.header.stamp = ros::Time::now();
+        statePub.header.frame_id = "statePub";
         statePublisher.publish(statePub);
         ros::spinOnce();
         rate.sleep();
     }
-
 }

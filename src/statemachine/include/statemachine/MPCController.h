@@ -50,7 +50,7 @@ public:
     }
 
 protected:
-    float h = 0.15; // step[s]
+    float h = 0.03; // step[s]
     int N = 25; // prediction horizon
     // float I1 = 0.103; float I2 = 0.104; float I3 = 0.161; 
     float I1 = 1; float I2 = 1; float I3 = 1; 

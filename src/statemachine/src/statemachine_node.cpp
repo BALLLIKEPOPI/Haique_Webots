@@ -63,6 +63,7 @@ void eso_cb(const eso::eso::ConstPtr &msg){
 
 attitudectl::controlPub getControlCommand(vector<double> control){
     attitudectl::controlPub control_msg;
+    control_msg.header.stamp = ros::Time::now();
     control_msg.thrust1 = control[0];
     control_msg.thrust2 = control[1];
     control_msg.thrust3 = control[2];
@@ -71,6 +72,8 @@ attitudectl::controlPub getControlCommand(vector<double> control){
     control_msg.thrust6 = control[5];
     control_msg.thrust7 = control[6];
     control_msg.thrust8 = control[7];
+    control_msg.alpha = control[8];
+    control_msg.beta = control[9];
     return control_msg;
 }
 
@@ -96,6 +99,7 @@ int main(int argc, char **argv){
         }
         ros::Time begin = ros::Time::now();
         vector<double> control = stateMachine.controlStep();
+        // cout << "Control command: " << control << endl;
         ros::Time end = ros::Time::now();
         ros::Duration duration = end - begin;
         ROS_INFO("Control step took: %f seconds", duration.toSec());
