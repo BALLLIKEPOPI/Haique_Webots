@@ -154,7 +154,7 @@ void MPC_CTL::getFirstCon(){
     vector<double> u_f_ = res.at("x").get_elements();
     u_f.insert(u_f.begin(), u_f_.begin()+n_state*(N+1), u_f_.begin()+10+n_state*(N+1));
     // cout << u_f << endl;
-    static attitudectl::controlPub uf_msg;
+    static haique_msgs::controlpub_msg uf_msg;
     uf_msg.thrust1 = u_f[0];
     uf_msg.thrust2 = u_f[1];
     uf_msg.thrust3 = u_f[2];

@@ -1,10 +1,10 @@
 // #include <casadi/core/calculus.hpp>
 #include <casadi/core/sx_fwd.hpp>
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
 #include <casadi/casadi.hpp>
 #include "attitudectl/attctl.h"
-#include "eso/eso.h"
+#include "haique_msgs/eso_msg.h"
 #include "ros/console.h"
 #include "ros/publisher.h"
 #include "ros/ros.h"
@@ -16,7 +16,7 @@
 // #include <mavros_msgs/SetMode.h>
 // #include <mavros_msgs/State.h>
 #include <geometry_msgs/PoseStamped.h>
-#include "statePublish/statePub.h"
+#include "haique_msgs/statepub_msg.h"
 #include <gazebo_msgs/ModelStates.h>
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Twist.h>
@@ -38,7 +38,7 @@ MPC_CTL MPC_Ctl;
 // for realfly
 // void local_pose_cb(const geometry_msgs::PoseStamped::ConstPtr& msg){
 // for sim
-void local_pose_cb(const statePublish::statePub::ConstPtr& msg){
+void local_pose_cb(const haique_msgs::statepub_msg::ConstPtr& msg){
     double roll, pitch, yaw;
     double w_x, w_y, w_z;
     roll = msg->roll;
@@ -54,8 +54,8 @@ void local_pose_cb(const statePublish::statePub::ConstPtr& msg){
     //                     x_, y_, z_, v_x, v_y, v_z);
 }
 
-void eso_cb(const eso::eso::ConstPtr &msg){
-    eso::eso eso_msg = *msg;
+void eso_cb(const haique_msgs::eso_msg::ConstPtr &msg){
+    haique_msgs::eso_msg eso_msg = *msg;
     MPC_Ctl.updatePara(eso_msg.torque1, eso_msg.torque2, eso_msg.torque3);
 }
 

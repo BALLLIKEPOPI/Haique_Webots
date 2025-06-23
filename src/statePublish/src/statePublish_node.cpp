@@ -9,7 +9,7 @@
 // #include <mavros_msgs/State.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/PointStamped.h>
-#include "statePublish/statePub.h"
+#include "haique_msgs/statepub_msg.h"
 #include <gazebo_msgs/ModelStates.h>
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Twist.h>
@@ -25,7 +25,7 @@
 
 using namespace std;
 
-static statePublish::statePub statePub;
+static haique_msgs::statepub_msg statePub;
 
 // for realfly
 // mavros_msgs::State current_state;
@@ -136,7 +136,7 @@ int main(int argc, char **argv){
     ros::Subscriber Gyro_sub = nh.subscribe("/gyro/values", 10, GyroCallback);
     ros::ServiceClient accelerometer_Client = nh.serviceClient<webots_ros::set_int>("/accelerometer/enable");
     ros::Subscriber accelerometer_sub = nh.subscribe("/accelerometer/values", 10, AccCallback);
-    ros::Publisher statePublisher = nh.advertise<statePublish::statePub>("/statePub", 10);
+    ros::Publisher statePublisher = nh.advertise<haique_msgs::statepub_msg>("/statePub", 10);
     ros::ServiceClient Gps_Client = nh.serviceClient<webots_ros::set_int>("/gps/enable");
     ros::Subscriber Gps_sub = nh.subscribe("/gps/values", 10, GpsCallback);
     ros::Subscriber Gps_speed_sub = nh.subscribe("/gps/speed_vector", 10, GpsSpeedCallback);

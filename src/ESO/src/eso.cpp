@@ -1,5 +1,5 @@
 #include "../include/eso.h"
-#include "eso/eso.h"
+#include "haique_msgs/eso_msg.h"
 #include "ros/init.h"
 #include "ros/node_handle.h"
 #include "ros/publisher.h"
@@ -8,8 +8,8 @@
 #include <gazebo_msgs/ModelStates.h>
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Twist.h>
-#include "statePublish/statePub.h"
-#include "attitudectl/controlPub.h"
+#include "haique_msgs/statepub_msg.h"
+#include "haique_msgs/controlpub_msg.h"
 
 using namespace std;
 
@@ -35,11 +35,11 @@ float input[6] = {0, 0, 0, 0, 0, 0};
 float state[6] = {0, 0, 0, 0, 0, 0};
 float drag[6] = {0, 0, 0, 0, 0, 0}; // drag[0-2] for torque, drag[3-5] for force
 ros::Publisher eso_Pub;
-static eso::eso eso_msg;
+static haique_msgs::eso_msg eso_msg;
 vector<ESO> ESO_vec(6);
 
 // for sim
-void local_pose_cb(const statePublish::statePub::ConstPtr& msg){
+void local_pose_cb(const haique_msgs::statepub_msg::ConstPtr& msg){
     double w_x, w_y, w_z;
     double v_x, v_y, v_z;
     // for realfly
@@ -67,7 +67,7 @@ void local_pose_cb(const statePublish::statePub::ConstPtr& msg){
     state[3] = v_x; state[4] = v_y; state[5] = v_z; 
 }
 
-void conSub_cb(const attitudectl::controlPub::ConstPtr& msg){
+void conSub_cb(const haique_msgs::controlpub_msg::ConstPtr& msg){
     float thrusts[8] = {msg->thrust1, msg->thrust2, msg->thrust3, msg->thrust4,
                         msg->thrust5, msg->thrust6, msg->thrust7, msg->thrust8};
     float alpha = msg->alpha;
@@ -146,9 +146,9 @@ int main(int argc, char **argv){
 
     // for sim
     ros::Subscriber sub = nh.subscribe("/statePub", 10, local_pose_cb);
-    ros::Subscriber conSub = nh.subscribe<attitudectl::controlPub>("/mpc_ctl", 10, conSub_cb);
+    ros::Subscriber conSub = nh.subscribe<haique_msgs::controlpub_msg>("/mpc_ctl", 10, conSub_cb);
     ros::Timer esoTimer = nh.createTimer(ros::Duration(0.02), esoTimerCallback);
-    eso_Pub = nh.advertise<eso::eso>("/eso_pub", 10);
+    eso_Pub = nh.advertise<haique_msgs::eso_msg>("/eso_pub", 10);
     double para[6];
     paraInit(para);
     for(int i = 0; i < 6; i++){

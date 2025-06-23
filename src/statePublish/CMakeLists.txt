@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(statePublish)
+project(statepublish)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  haique_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -48,10 +49,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  statePub.msg
-)
+# add_message_files(
+#   FILES
+#   statePub.msg
+# )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -105,7 +106,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES statePublish
- CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
+ CATKIN_DEPENDS roscpp rospy std_msgs message_runtime haique_msgs
 #  DEPENDS system_lib
 )
 

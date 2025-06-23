@@ -1,4 +1,4 @@
-#include "attitudectl/controlPub.h"
+#include "haique_msgs/controlpub_msg.h"
 #include "ros/console.h"
 #include "ros/init.h"
 #include "ros/node_handle.h"
@@ -72,8 +72,8 @@ static int step = TIME_STEP;
 // vector<std_msgs::Float64> joint_angle(2);
 // vector<std_msgs::Float64> last_joint_angle(2);
 
-void conSub_cb(const attitudectl::controlPub::ConstPtr &msg){
-    attitudectl::controlPub conSub_msg = *msg;
+void conSub_cb(const haique_msgs::controlpub_msg::ConstPtr &msg){
+    haique_msgs::controlpub_msg conSub_msg = *msg;
     motor1Srv.request.value = (double)conSub_msg.thrust1*thrust_gain > 50 ? 50 : (double)conSub_msg.thrust1*thrust_gain;
     motor2Srv.request.value = (double)conSub_msg.thrust2*thrust_gain > 50 ? 50 : (double)conSub_msg.thrust2*thrust_gain;
     motor3Srv.request.value = (double)conSub_msg.thrust3*thrust_gain > 50 ? 50 : (double)conSub_msg.thrust3*thrust_gain;
@@ -161,7 +161,7 @@ int main(int argc, char **argv){
     motor7_VelocityClient = nh.serviceClient<webots_ros::set_float>("/motor7/set_velocity");
     motor8_VelocityClient = nh.serviceClient<webots_ros::set_float>("/motor8/set_velocity");
 
-    ros::Subscriber conSub = nh.subscribe<attitudectl::controlPub>("/mpc_ctl", 10, conSub_cb);
+    ros::Subscriber conSub = nh.subscribe<haique_msgs::controlpub_msg>("/mpc_ctl", 10, conSub_cb);
     ros::Rate rate(50.0); 
     while(ros::ok()) {      
         motor1_VelocityClient.call(motor1Srv);

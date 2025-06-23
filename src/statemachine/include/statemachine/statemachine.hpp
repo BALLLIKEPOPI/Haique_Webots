@@ -2,7 +2,7 @@
 #define __STATEMACHINE_HPP__
 
 #include "casadi/casadi.hpp"
-#include "attitudectl/controlPub.h"
+#include "haique_msgs/controlpub_msg.h"
 #include "eigen3/Eigen/Eigen"
 #include <vector>
 #include <ros/ros.h>

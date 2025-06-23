@@ -2,7 +2,7 @@
 #define __MPC_CTL_H__
 
 #include "casadi/casadi.hpp"
-#include "attitudectl/controlPub.h"
+#include "haique_msgs/controlpub_msg.h"
 #include "eigen3/Eigen/Eigen"
 #include <vector>
 #include <ros/ros.h>
@@ -52,7 +52,7 @@ class MPC_CTL{
     }
 
     void init(ros::NodeHandle &nh){
-        conPub = nh.advertise<attitudectl::controlPub>("/mpc_ctl", 10);
+        conPub = nh.advertise<haique_msgs::controlpub_msg>("/mpc_ctl", 10);
         // nh.getParam("xs", xs); // desire state
     }
     void solve();

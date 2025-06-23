@@ -3,7 +3,7 @@
 #include<vector>
 #include <casadi/casadi.hpp>
 #include "statemachine/statemachine.hpp"
-#include "eso/eso.h"
+#include "haique_msgs/eso_msg.h"
 #include "ros/console.h"
 #include "ros/publisher.h"
 #include "ros/ros.h"
@@ -15,7 +15,7 @@
 // #include <mavros_msgs/SetMode.h>
 // #include <mavros_msgs/State.h>
 #include <geometry_msgs/PoseStamped.h>
-#include "statePublish/statePub.h"
+#include "haique_msgs/statepub_msg.h"
 #include <gazebo_msgs/ModelStates.h>
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Twist.h>
@@ -31,7 +31,7 @@ using namespace casadi;
 
 StateMachine stateMachine;
 
-void local_pose_cb(const statePublish::statePub::ConstPtr& msg){
+void local_pose_cb(const haique_msgs::statepub_msg::ConstPtr& msg){
     double roll, pitch, yaw;
     double w_x, w_y, w_z;
     double x_, y_, z_, v_x, v_y, v_z;
@@ -55,14 +55,14 @@ void local_pose_cb(const statePublish::statePub::ConstPtr& msg){
     //                     x_, y_, z_, v_x, v_y, v_z);
 }
 
-void eso_cb(const eso::eso::ConstPtr &msg){
-    eso::eso eso_msg = *msg;
+void eso_cb(const haique_msgs::eso_msg::ConstPtr &msg){
+    haique_msgs::eso_msg eso_msg = *msg;
     stateMachine.updatePara({eso_msg.torque1, eso_msg.torque2, eso_msg.torque3},
                             {eso_msg.force1, eso_msg.force2, eso_msg.force3});
 }
 
-attitudectl::controlPub getControlCommand(vector<double> control){
-    attitudectl::controlPub control_msg;
+haique_msgs::controlpub_msg getControlCommand(vector<double> control){
+    haique_msgs::controlpub_msg control_msg;
     control_msg.header.stamp = ros::Time::now();
     control_msg.thrust1 = control[0];
     control_msg.thrust2 = control[1];
@@ -86,7 +86,7 @@ int main(int argc, char **argv){
     ros::spinOnce();
     ros::Duration(1).sleep();
 
-    ros::Publisher conPub = nh.advertise<attitudectl::controlPub>("/mpc_ctl", 10);
+    ros::Publisher conPub = nh.advertise<haique_msgs::controlpub_msg>("/mpc_ctl", 10);
     ros::Subscriber state_sub = nh.subscribe("/statePub", 10, local_pose_cb);
     ros::Subscriber eso_Sub = nh.subscribe("/eso_pub", 10, eso_cb);
 

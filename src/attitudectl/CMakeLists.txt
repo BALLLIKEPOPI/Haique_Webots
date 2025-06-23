@@ -12,7 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
-  eso
+  haique_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -49,10 +49,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  controlPub.msg
-)
+# add_message_files(
+#   FILES
+#   controlpub_msg.msg
+# )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -106,7 +106,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES attitudectl
- CATKIN_DEPENDS roscpp rospy std_msgs eso message_runtime
+ CATKIN_DEPENDS roscpp rospy std_msgs haique_msgs message_runtime 
 #  DEPENDS system_lib
 )
 
