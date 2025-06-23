@@ -104,7 +104,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES visualization
-#  CATKIN_DEPENDS haique_msgs rospy
+ CATKIN_DEPENDS haique_msgs rospy
 #  DEPENDS system_lib
 )
 
@@ -203,3 +203,7 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+catkin_install_python(PROGRAMS
+  src/realtime_plotter.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)

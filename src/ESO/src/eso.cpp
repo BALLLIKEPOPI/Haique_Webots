@@ -118,7 +118,7 @@ void esoTimerCallback(const ros::TimerEvent& event){
         ESO_vec[i].ESO_ADRC();
         drag[i] = ESO_vec[i].GetEState();
         if(i == 5){
-            drag[i] = drag[i] - (rou*V-m)*G/m;
+            drag[i] = drag[i];
         }
         // cout << "drag" << i << ": " << drag[i] << endl;
         // cout << "state" << i << ": " << state[i] << endl;

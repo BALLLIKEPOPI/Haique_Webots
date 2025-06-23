@@ -13,6 +13,7 @@
   <arg name="duration" default="20" doc="Duration in seconds"/>
   <arg name="auto_close" default="false" doc="Startup mode"/>
 
+  <node name="visualization" pkg="visualization" type="realtime_plotter.py" output="screen"/>
   <node name="statepublish" pkg="statepublish" type="statepublish_node" output="screen"/>
   <node name="eso_node" pkg="eso" type="eso_node" output="screen"/>
   <node name="statemachine_node" pkg="statemachine" type="statemachine_node" output="screen"/>
