@@ -282,9 +282,9 @@ class RealtimePlotter:
             self.full_target_data['target_z'].append(getattr(msg, 'z', 0))
     
     def setup_plots(self):
-        self.axes[0].set_title('Attitude States')
-        self.axes[0].set_ylabel('Angle (rad)')
-        self.axes[0].legend(['Roll', 'Pitch', 'Yaw'])
+        self.axes[0].set_title('Position States')
+        self.axes[0].set_ylabel('Position (m)')
+        self.axes[0].legend(['X', 'Y', 'Z'])
         self.axes[0].grid(True)
         
         self.axes[1].set_title('ESO Torque Estimates')

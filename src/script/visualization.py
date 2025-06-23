@@ -61,7 +61,7 @@ def plot_csv_data(csv_file_path):
             print(f"{category}: {cols}")
     
     # 创建子图
-    fig, axes = plt.subplots(5, 2, figsize=(15, 20))
+    fig, axes = plt.subplots(4, 2, figsize=(15, 20))
     fig.suptitle(f'Data Visualization - {os.path.basename(csv_file_path)}', fontsize=16)
     
     # 绘制各类数据
@@ -74,7 +74,6 @@ def plot_csv_data(csv_file_path):
         ('ESO Torque', axes[2, 1], 'Torque (N·m)'),
         ('ESO Force', axes[3, 0], 'Force (N)'),
         ('Servo', axes[3, 1], 'Servo Position (rad)'),
-        ('Others', axes[4, 0], 'Value')
     ]
     
     for category, ax, ylabel in plot_configs:
