@@ -3,7 +3,6 @@
 #include <iostream>
 
 HoverMPC::HoverMPC(){
-    cout << "HoverMPC constructor called" << endl;
 }
 
 SX HoverMPC::Dynamics(const SX state, const SX con, SX drag){
@@ -56,19 +55,19 @@ SX HoverMPC::Dynamics(const SX state, const SX con, SX drag){
 void HoverMPC::setupProblem() {
     cout << "Problem setup started" << endl;
     // [x, y, z, vx, vy, vz, phi, theta, psi, p, q, r]
-    Q_hover(0, 0) = 100;    Q_hover(6, 6) = 100;
-    Q_hover(1, 1) = 100;    Q_hover(7, 7) = 100;
-    Q_hover(2, 2) = 100;    Q_hover(8, 8) = 100;
-    Q_hover(3, 3) = 1;      Q_hover(9, 9) = 100;
-    Q_hover(4, 4) = 1;      Q_hover(10, 10) = 1;
-    Q_hover(5, 5) = 1;      Q_hover(11, 11) = 1;
+    Q_hover(0, 0) = 20000;    Q_hover(6, 6) = 20000;
+    Q_hover(1, 1) = 20000;    Q_hover(7, 7) = 20000;
+    Q_hover(2, 2) = 20000;    Q_hover(8, 8) = 20000;
+    Q_hover(3, 3) = 1000;     Q_hover(9, 9) = 1000;
+    Q_hover(4, 4) = 1000;     Q_hover(10, 10) = 1000;
+    Q_hover(5, 5) = 1000;     Q_hover(11, 11) = 1000;
 
     // [f1, f2, f3, f4, f5, f6, f7, f8]
-    R_hover(0, 0) = 10;     R_hover(1, 1) = 10;
-    R_hover(2, 2) = 10;     R_hover(3, 3) = 10;
-    R_hover(4, 4) = 10;     R_hover(5, 5) = 10;
-    R_hover(6, 6) = 10;     R_hover(7, 7) = 10;
-    R_hover(8, 8) = 0;      R_hover(9, 9) = 0;
+    R_hover(0, 0) = 1000;     R_hover(1, 1) = 1000;
+    R_hover(2, 2) = 1000;     R_hover(3, 3) = 1000;
+    R_hover(4, 4) = 1000;     R_hover(5, 5) = 1000;
+    R_hover(6, 6) = 1000;     R_hover(7, 7) = 1000;
+    R_hover(8, 8) = 0;        R_hover(9, 9) = 0;
 
     st = X(all, 0);
     drag = P(Slice(2*n_state, 2*n_state+n_drag));
@@ -101,7 +100,7 @@ void HoverMPC::setupProblem() {
     // xs = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -85.0, 0.0, 0.0, 0.0}; // desire state
     x0 = {0.0, 0.0, 0.17, 0.0, 0.0, 0.0, 
         0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; // initial state
-    xs = {0.0, 0.0, 0.3, 0.0, 0.0, 0.0,
+    xs = {0.0, 0.0, 0.5, 0.0, 0.0, 0.0,
         0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; // desire state
     X0 = SX::repmat(x0, 1, N+1);
 

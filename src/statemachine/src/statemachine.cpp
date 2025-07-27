@@ -1,6 +1,7 @@
 #include "statemachine/statemachine.hpp"
 #include <casadi/core/sx_fwd.hpp>
 #include <cmath>
+#include <iostream>
 
 StateMachine::StateMachine(){
     controllers_["hover"] = std::make_unique<HoverMPC>();

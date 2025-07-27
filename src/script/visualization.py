@@ -56,9 +56,9 @@ def plot_csv_data(csv_file_path):
             data_categories['Others'].append(col)
     
     # 打印分类结果
-    for category, cols in data_categories.items():
-        if cols:
-            print(f"{category}: {cols}")
+    # for category, cols in data_categories.items():
+    #     if cols:
+    #         print(f"{category}: {cols}")
     
     # 创建子图
     fig, axes = plt.subplots(4, 2, figsize=(15, 20))
@@ -100,6 +100,7 @@ if __name__ == "__main__":
         # 按文件名排序（时间戳格式确保字典序等于时间序）
         csv_files.sort(reverse=True)
         csv_file = csv_files[0]
+        # csv_file = "flight_data_20250623_214457.csv"  # For testing purposes, replace with the latest file found
         print(f"找到最新的CSV文件: {csv_file}")
     else:
         print("未找到任何CSV文件")

@@ -49,7 +49,7 @@ void local_pose_cb(const haique_msgs::statepub_msg::ConstPtr& msg){
     v_z = msg->linear_velocity_z;
     // for sim
     stateMachine.updatex0(x_, y_, z_, v_x, v_y, v_z, 
-                            roll, pitch, yaw, w_x, w_y, w_z);
+                            roll, pitch, yaw, w_x, w_y, w_z);         
     // for realfly
     // MPC_Ctl.updatex0(roll, pitch, yaw, w_x, w_y, w_z, 
     //                     x_, y_, z_, v_x, v_y, v_z);
@@ -106,6 +106,8 @@ int main(int argc, char **argv){
         
         // Publish the control command
         conPub.publish(getControlCommand(control));
+        ros::spinOnce();
+        rate.sleep();
     }
 
     return 0;

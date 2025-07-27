@@ -45,4 +45,6 @@
 build
 devel
 logs
-
+.cache
+flight_data
+.venv

@@ -14,7 +14,7 @@
 using namespace std;
 
 // float I1 = 0.103; float I2 = 0.104; float I3 = 0.161; 
-float I1 = 1; float I2 = 1; float I3 = 1; 
+float I1 = 0.102761; float I2 = 0.104523; float I3 = 0.161378; 
 float m = 4.8; // kg
 float V = 0.00285; // m3
 float rou = 1000; // kg/m3
@@ -118,7 +118,7 @@ void esoTimerCallback(const ros::TimerEvent& event){
         ESO_vec[i].ESO_ADRC();
         drag[i] = ESO_vec[i].GetEState();
         if(i == 5){
-            drag[i] = drag[i];
+            drag[i] = drag[i] - (rou*V-m)*G/m;
         }
         // cout << "drag" << i << ": " << drag[i] << endl;
         // cout << "state" << i << ": " << state[i] << endl;

@@ -13,60 +13,15 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.05266832901239523 0.10200055948129207 0.9933891145893161 0.7175439825820402
-  position -2.461069792479679 -2.253799343845008 0.9508908523844952
+  orientation -0.08421030051714899 0.06935145260208886 0.9940316902940225 1.6487755841436968
+  position 0.6045495625005749 -5.2029314088306045 1.51796397107047
 }
 DEF haique Robot {
-  translation 0 0 0.63
+  translation 0 0 0.17
   children [
     Accelerometer {
     }
     Gyro {
-    }
-    BallJoint {
-      jointParameters BallJointParameters {
-      }
-      jointParameters2 JointParameters {
-        axis 0 1 0
-      }
-      jointParameters3 JointParameters {
-      }
-      endPoint Solid {
-        translation 0 0 -0.62
-        children [
-          DEF g0 Group {
-            children [
-              Pose {
-                translation 0 -2.34646e-06 0.25
-                rotation 1 0 0 4.692820414042842e-06
-                children [
-                  DEF cylinder Shape {
-                    appearance PBRAppearance {
-                    }
-                    geometry Cylinder {
-                      height 0.5
-                      radius 0.01
-                    }
-                  }
-                ]
-              }
-              DEF plant Shape {
-                appearance PBRAppearance {
-                }
-                geometry Box {
-                  size 1 1 0.01
-                }
-              }
-            ]
-          }
-        ]
-        name "solid(2)"
-        boundingObject USE g0
-        physics Physics {
-          density -1
-          mass 500
-        }
-      }
     }
     GPS {
     }
@@ -195,7 +150,7 @@ DEF haique Robot {
         }
       ]
       endPoint DEF right_arm Solid {
-        translation 0.0008400030784143673 -0.286 0.0003000077790041005
+        translation 0.0008400030089865733 -0.2859999997280098 0.00029975824158638074
         rotation 0 -0.9999999999999999 0 9.424321830774485e-08
         children [
           DEF motor4 Propeller {
@@ -285,7 +240,7 @@ DEF haique Robot {
         }
       ]
       endPoint Solid {
-        translation 0.0004999967252063551 0.283 0.0003000087270946852
+        translation 0.0004999966616127917 0.28300000024912914 0.0002997801634842077
         rotation 0 -1 0 1.264405455326821e-07
         children [
           DEF left_arm_shape Shape {
@@ -387,7 +342,7 @@ DEF haique Robot {
       0 0 0
     ]
     inertiaMatrix [
-      1 1 1
+      0.102761 0.104523 0.161378
       0 0 0
     ]
   }

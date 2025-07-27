@@ -51,9 +51,9 @@ public:
 
 protected:
     float h = 0.03; // step[s]
-    int N = 25; // prediction horizon
+    int N = 15; // prediction horizon
     // float I1 = 0.103; float I2 = 0.104; float I3 = 0.161; 
-    float I1 = 1; float I2 = 1; float I3 = 1; 
+    float I1 = 0.102761; float I2 = 0.104523; float I3 = 0.161378; 
     float m = 4.8; // kg
     float V = 0.00285; // m3
     float rou = 1000; // kg/m3
