@@ -1,5 +1,6 @@
 #include "statemachine/HoverMPC.h"
 #include <casadi/core/calculus.hpp>
+#include <casadi/core/slice.hpp>
 #include <iostream>
 
 HoverMPC::HoverMPC(){
@@ -69,14 +70,21 @@ void HoverMPC::setupProblem() {
     R_hover(6, 6) = 1000;     R_hover(7, 7) = 1000;
     R_hover(8, 8) = 0;        R_hover(9, 9) = 0;
 
+    S_condiff(0, 0) = 100;    S_condiff(1, 1) = 100;
+    S_condiff(2, 2) = 100;    S_condiff(3, 3) = 100;
+    S_condiff(4, 4) = 100;    S_condiff(5, 5) = 100;
+    S_condiff(6, 6) = 100;    S_condiff(7, 7) = 100;
+    S_condiff(8, 8) = 0;      S_condiff(9, 9) = 0;
+
     st = X(all, 0);
     drag = P(Slice(2*n_state, 2*n_state+n_drag));
+    last_control = P(Slice(2*n_state+n_drag, 2*n_state+n_drag+n_control));
     g(Slice(0, n_state)) = st - P(Slice(0, n_state));
     for(int i = 0; i < N; i++){
         st = X(all, i);
         con = U(all, i);
         obj += SX::mtimes({(st-P(Slice(n_state, n_state*2))).T(), Q_hover, (st-P(Slice(n_state, n_state*2)))}) +
-                SX::mtimes({con.T(), R_hover, con});
+                SX::mtimes({con.T(), R_hover, con}) + SX::mtimes({(con - last_control).T(), S_condiff, (con - last_control)});
         st_next = X(all, i+1);
         // RK4
         k1 = Dynamics(st, con, drag);
@@ -130,7 +138,7 @@ void HoverMPC::setupProblem() {
 
     // TODO: if the system is in initial state
     // or maybe we should cancel this
-    updatePara({0, 0, 0}, {0, 0, 0}); 
+    updatePara({0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}); 
     cout << "Problem setup finished" << endl;
 }
 

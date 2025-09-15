@@ -35,15 +35,17 @@ private:
     
     SX Q_hover = SX::zeros(n_state, n_state); // weighing matrices (states)
     SX R_hover = SX::zeros(n_control, n_control); // weighing matrices (controls)
+    SX S_condiff = SX::zeros(n_control, n_control);
     SX st = SX::sym("st", n_state); // initial state
     SX st_next = SX::sym("st_next", n_state);
     SX con = SX::sym("con", n_control);
     SX drag = SX::sym("drag", n_drag);
+    SX last_control = SX::sym("last_control", n_control);
     SX OPT_variables = SX::sym("OPT_variables", n_state*(N+1)+n_control*N);
     
     SX U = SX::sym("U", n_control, N); // Decision variables (controls)
     // parameters (which include the initial state and the reference state)
-    SX P = SX::sym("P", 2*n_state+n_drag); 
+    SX P = SX::sym("P", 2*n_state+n_drag+n_control); 
     // A vector that represents the states over the optimization problem.
     SX X = SX::sym("X", n_state, N+1);
     // initialization of the states decision variables

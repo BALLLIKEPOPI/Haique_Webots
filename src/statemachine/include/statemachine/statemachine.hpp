@@ -28,7 +28,9 @@ class StateMachine
                         double vx_, double vy_, double vz_,
                         double phi_, double theta_, double psi_, 
                         double p_, double q_, double r_);
-        void updatePara(vector<double> torque, vector<double> force);
+        void updatePara();
+        void updateEso(vector<double> eso_force, vector<double> eso_torque);
+        void updateControl(vector<double> last_control);
     private:
         map<string, unique_ptr<MPCController>> controllers_;
         string mode_;

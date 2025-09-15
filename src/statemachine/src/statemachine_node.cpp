@@ -57,8 +57,10 @@ void local_pose_cb(const haique_msgs::statepub_msg::ConstPtr& msg){
 
 void eso_cb(const haique_msgs::eso_msg::ConstPtr &msg){
     haique_msgs::eso_msg eso_msg = *msg;
-    stateMachine.updatePara({eso_msg.torque1, eso_msg.torque2, eso_msg.torque3},
-                            {eso_msg.force1, eso_msg.force2, eso_msg.force3});
+    stateMachine.updateEso({eso_msg.force1, eso_msg.force2, eso_msg.force3},
+                            {eso_msg.torque1, eso_msg.torque2, eso_msg.torque3});
+    // stateMachine.updatePara({eso_msg.torque1, eso_msg.torque2, eso_msg.torque3},
+    //                         {eso_msg.force1, eso_msg.force2, eso_msg.force3});
 }
 
 haique_msgs::controlpub_msg getControlCommand(vector<double> control){
@@ -74,6 +76,7 @@ haique_msgs::controlpub_msg getControlCommand(vector<double> control){
     control_msg.thrust8 = control[7];
     control_msg.alpha = control[8];
     control_msg.beta = control[9];
+    stateMachine.updateControl(control);
     return control_msg;
 }
 
@@ -103,6 +106,7 @@ int main(int argc, char **argv){
         ros::Time end = ros::Time::now();
         ros::Duration duration = end - begin;
         ROS_INFO("Control step took: %f seconds", duration.toSec());
+        stateMachine.updatePara();
         
         // Publish the control command
         conPub.publish(getControlCommand(control));

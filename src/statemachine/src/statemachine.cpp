@@ -2,6 +2,7 @@
 #include <casadi/core/sx_fwd.hpp>
 #include <cmath>
 #include <iostream>
+#include <vector>
 
 StateMachine::StateMachine(){
     controllers_["hover"] = std::make_unique<HoverMPC>();
@@ -52,5 +53,14 @@ void StateMachine::updatex0(double x_, double y_, double z_,
                                     phi_, theta_, psi_, p_, q_, r_);
 }
 
-void StateMachine::updatePara(vector<double> torque, vector<double> force){
-    controllers_[mode_]->updatePara(torque, force);}
+void StateMachine::updateControl(vector<double> last_control){
+    controllers_[mode_]->updateControl(last_control);
+}
+
+void StateMachine::updateEso(vector<double> eso_force, vector<double> eso_torque){
+    controllers_[mode_]->updateEso(eso_force, eso_torque);
+}
+
+void StateMachine::updatePara(){
+    controllers_[mode_]->updatePara();
+}

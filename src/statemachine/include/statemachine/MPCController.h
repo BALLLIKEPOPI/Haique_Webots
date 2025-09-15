@@ -40,13 +40,48 @@ public:
         return solve();
     }
 
-    void updatePara(vector<double> drag_t, vector<double> drag_f) {
+    void updatePara(vector<double> eso_torque, vector<double> eso_force, vector<double> last_control) {
         // Update the parameters vector with the current state
         para.clear();
         para.insert(para.end(), x0.begin(), x0.end());
         para.insert(para.end(), xs.begin(), xs.end());
-        para.insert(para.end(), drag_t.begin(), drag_t.end());
-        para.insert(para.end(), drag_f.begin(), drag_f.end());
+        para.insert(para.end(), eso_torque_.begin(), eso_torque_.end());
+        para.insert(para.end(), eso_force_.begin(), eso_force_.end());
+        para.insert(para.end(), last_control_.begin(), last_control_.end());
+        cout << "init" << endl;
+        cout << "x0.size" << " " << x0.size() << "\n"
+             << "xs.size" << " " << xs.size() << "\n"
+             << "eso_torque.size" << " " << eso_torque_.size() << "\n"
+             << "eso_force.size" << " " << eso_force_.size() << "\n"
+             << "last_control.size" << " " << last_control_.size() << endl;
+    }
+
+    void updatePara() {
+        // Update the parameters vector with the current state
+        para.clear();
+        para.insert(para.end(), x0.begin(), x0.end());
+        para.insert(para.end(), xs.begin(), xs.end());
+        para.insert(para.end(), eso_torque_.begin(), eso_torque_.end());
+        para.insert(para.end(), eso_force_.begin(), eso_force_.end());
+        para.insert(para.end(), last_control_.begin(), last_control_.end());
+        cout << "update" << endl;
+        cout << "x0.size" << " " << x0.size() << "\n"
+             << "xs.size" << " " << xs.size() << "\n"
+             << "eso_torque.size" << " " << eso_torque_.size() << "\n"
+             << "eso_force.size" << " " << eso_force_.size() << "\n"
+             << "last_control.size" << " " << last_control_.size() << endl;
+    }
+
+    void updateControl(vector<double> last_control) {
+        // Update the parameters vector with the current state
+        last_control_.clear();
+        last_control_ = last_control;
+    }
+
+    void updateEso(vector<double> eso_force, vector<double> eso_torque) {
+        // Update the parameters vector with the current state
+        eso_force_ = eso_force;
+        eso_torque_ = eso_torque; 
     }
 
 protected:
@@ -63,11 +98,14 @@ protected:
     float k = 0.3; // 推力系数
     float c = 0.03; // 反扭系数
 
+    vector<double> eso_force_;
+    vector<double> eso_torque_;
     vector<double> x0;
     vector<double> xs;
     vector<double> para;
     vector<double> lbx;
     vector<double> ubx;
+    vector<double> last_control_;
     // Nonlinear bounds
     vector<double> lbg;
     vector<double> ubg;
